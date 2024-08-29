@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    @apply font-Roboto antialiased;
+}
+@layer utilities {
+    .header {
+        @apply w-full;
+    }
+
+    .navbar {
+        @apply max-w-7xl mx-auto  py-2 flex gap-2 items-center justify-between;
+    }
+
+     .brand {
+        @apply flex items-center gap-5
+    }
+
+    .brand__nav {
+        @apply h-20 w-20
+    }
+
+    .brand__name {
+        @apply text-text text-3xl font-bold w-72
+    }
+
+    .nav__links {
+        @apply  gap-8 hidden md:flex
+    }
+    .nav__link {
+        position: relative;
+        text-decoration: none;
+        color: #000;
+    }
+    
+    .nav__link:before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -0.5rem; /* Mengatur jarak dari teks */
+        left: 0;
+        background-color: #000;
+        visibility: hidden;
+        transition: all 0.4s ease-in-out;
+    }
+    
+    .nav__link:hover:before {
+        visibility: visible;
+        width: 100%;
+    }
+    .active{
+        @apply text-accent font-bold
+    }
+    [data-fade] {
+        @apply translate-y-10 opacity-0 transition duration-300 ease-out motion-reduce:translate-y-0 motion-reduce:opacity-100;
+      }
+      .fade-in-start [data-fade] {
+        @apply translate-y-0 opacity-100;
+      }
+      .fade-in-start [data-fade='1'] {
+        transition-delay: 100ms;
+      }
+      .fade-in-start [data-fade='2'] {
+        transition-delay: 200ms;
+      }
+      .fade-in-start [data-fade='3'] {
+        transition-delay: 300ms;
+      }
+      .fade-in-start [data-fade='4'] {
+        transition-delay: 400ms;
+      }
+      .fade-in-start [data-fade='5'] {
+        transition-delay: 500ms;
+      }
+      .fade-in-start [data-fade='6'] {
+        transition-delay: 600ms;
+      }
+      .fade-in-start [data-fade='7'] {
+        transition-delay: 700ms;
+      }
+      .fade-in-start [data-fade='8'] {
+        transition-delay: 800ms;
+      }
+      .fade-in-start [data-fade='9'] {
+        transition-delay: 900ms;
+      }
+    
+}
+
+@layer components {}
