@@ -26,9 +26,7 @@
         @apply text-text text-3xl font-bold w-72
     }
 
-    .nav__links {
-        @apply  gap-8 hidden md:flex
-    }
+
     .nav__link {
         position: relative;
         text-decoration: none;
@@ -40,11 +38,12 @@
         position: absolute;
         width: 0;
         height: 2px;
-        bottom: -0.5rem; /* Mengatur jarak dari teks */
+        bottom: -0.1rem; /* Mengatur jarak dari teks */
         left: 0;
-        background-color: #000;
+        
         visibility: hidden;
         transition: all 0.4s ease-in-out;
+        @apply bg-primary
     }
     
     .nav__link:hover:before {
