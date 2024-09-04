@@ -6,11 +6,11 @@ import Icon from '../assets/icon/Icon';
 export default function Footer() {
   return (
     <footer className="bg-accent text-background">
-      <div className="max-w-7xl mx-auto py-8">
+      <div className="max-w-7xl mx-auto py-8 px-4">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 justify-end items-center">
           {/* Logo Section */}
-          <div className="flex flex-col items-end md:items-start">
-            <img className="w-52" src={exam} alt="SMK Logo" />
+          <div className="flex flex-col items-center md:items-start">
+            <img className="w-52 " src={exam} alt="SMK Logo" />
             <p className="mt-2 text-sm">
               SMK Negeri 2 Balikpapan
             </p>

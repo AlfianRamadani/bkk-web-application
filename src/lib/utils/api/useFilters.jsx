@@ -3,10 +3,10 @@ import { BaseApi } from "../BaseApi";
 
 
 
-// Function to fetch filters data from the API
-const fetchFilters = async () => {
+
+const fetchFilters = async() => {
   const response = await BaseApi.get('/filter');
-  return response.data; // Return the `data` property
+  return response.data; 
 }
 
 // Custom hook

@@ -70,9 +70,7 @@ export default function Profil() {
                     </div>
                   </div>
                 </div>
-
               ))}
-
 
             </div>
 
