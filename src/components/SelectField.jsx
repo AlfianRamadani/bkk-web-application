@@ -1,4 +1,9 @@
+import { useEffect, useState } from "react";
+
 const SelectField = ({ label, options, onChange, selectedValue }) => {
+  const [selectedFilter, setSelectedFilter] = useState('');
+
+  // Get option value based on label
   const getOptionValue = (item) => {
     switch (label) {
       case "Location":
@@ -11,6 +16,7 @@ const SelectField = ({ label, options, onChange, selectedValue }) => {
     }
   };
 
+  // Get option text based on label
   const getOptionText = (item) => {
     switch (label) {
       case "Location":
@@ -25,23 +31,26 @@ const SelectField = ({ label, options, onChange, selectedValue }) => {
         return undefined;
     }
   };
-  
-  const getSelectedValue = (selected) => {
-    switch (label) {
-      case "Location":
-        return selected.location;
-      case "Type":
-        return selected.type;
-      case "Experience":
-        return selected.experience;
-      case "Salary":
-        return selected.salary;
-      default:
-        return undefined;
-    }
-  };
-  const selectedFilter = getSelectedValue(selectedValue);
 
+  useEffect(() => {
+    // Update the selectedFilter based on selectedValue prop
+    const getSelectedValue = (selected) => {
+      switch (label) {
+        case "Location":
+          return selected?.location || '';
+        case "Type":
+          return selected?.type || '';
+        case "Experience":
+          return selected?.experience || '';
+        case "Salary":
+          return selected?.salary || '';
+        default:
+          return '';
+      }
+    };
+
+    setSelectedFilter(getSelectedValue(selectedValue));
+  }, [selectedValue, label]);
 
   const handleSelectChange = (e) => {
     onChange(label, e.target.value); // Send selected value to parent
@@ -57,7 +66,7 @@ const SelectField = ({ label, options, onChange, selectedValue }) => {
         id={label.toLowerCase()}
         className="border border-gray-300 p-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
         onChange={handleSelectChange}
-        value={selectedFilter} // Set the selected value based on props
+        value={selectedFilter} // Set the selected value based on state
       >
         <option value="">Select {label}</option>
         {options.map((item) => {

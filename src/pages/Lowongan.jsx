@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Seo } from "../components/Seo";
 import Layout from "../components/Layout.jsx";
-import { VacancyList } from "../components/VacancyList";
 import useVacancies from "../lib/utils/api/useVacancies";
 import TopFilter from "../components/TopFilter";
 import JobList from "../components/JobList";
@@ -9,9 +8,10 @@ import useFilters from "../lib/utils/api/useFilters.jsx";
 import { VacancyCard } from "../components/VacancyCard";
 import BreadCrumb from "../components/BreadCrumb.jsx";
 import { useSearchParams } from "react-router-dom";
+import { useDebounce } from "use-debounce";
 
 const Lowongan = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams(); //untuk para
   const { vacanciesData, isLoading: isVacanciesLoading } = useVacancies();
   const { filtersData, isLoading: isFiltersLoading } = useFilters();
 
@@ -27,6 +27,8 @@ const Lowongan = () => {
 
   const [selectedFilters, setSelectedFilters] = useState(initialFilters);
   const [search, setSearch] = useState(searchParams.get("search") || '');
+
+  const [debouncedValue] = useDebounce(search, 2000);
 
   // Update URL parameters based on filters and search
   const updateUrlParams = () => {
@@ -91,18 +93,18 @@ const Lowongan = () => {
       );
     }
 
-    setFilteredVacancies(filtered);
+    setFilteredVacancies(filtered.slice(0, 100)); // Limit to 100 vacancies
   };
 
   useEffect(() => {
     if (vacanciesData) {
       filterVacancies();
     }
-  }, [vacanciesData, search, selectedFilters]);
+  }, [vacanciesData, debouncedValue, selectedFilters]);
 
   useEffect(() => {
     updateUrlParams();
-  }, [search, selectedFilters]);
+  }, [debouncedValue, selectedFilters]);
 
   useEffect(() => {
     setSearch(searchParams.get("search") || '');
@@ -119,38 +121,48 @@ const Lowongan = () => {
     setSelectedVacancy(vacancy);
   };
 
-
+  if (isVacanciesLoading || isFiltersLoading) {
+    return (
+      <Layout>
+      <BreadCrumb pageNow="Lowongan" title="Lowongan Pekerjaan"></BreadCrumb>
+      
+        <div className="flex justify-center items-center h-96 ">
+          <p className="text-lg">Loading data, please wait...</p>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <>
       <Seo title="Lowongan" description="This is the lowongan page" />
       <Layout>
-        <main className="">
+        <main className="py-5">
           <BreadCrumb pageNow="Lowongan" title="Lowongan Pekerjaan"></BreadCrumb>
-          <div className="py-8">
+          
             <TopFilter
               filtersData={filtersData}
               onChange={handleFilterChange}
               search={search}
+              debouncedValue={debouncedValue}
               setSearch={setSearch}
               selectedFilters={selectedFilters}
               removeFilters={handleRemoveFilters}
               initialValues={initialFilters}
               vacancies={filteredVacancies}
             />
-            <div className="flex gap-10 max-w-7xl mx-auto py-8 h-[150dvh] bg-white p-6 rounded-xl shadow-lg">
+            <div className="flex gap-5 max-w-7xl mx-auto h-[150dvh] bg-white  rounded-xl shadow-lg">
               {filteredVacancies.length > 0 ? (
                 <JobList vacancies={filteredVacancies} onSelectVacancy={handleVacancySelect} />
               ) : (
                 <div>No vacancies found based on your filters.</div>
               )}
-              <div className="hidden md:flex md:flex-grow">
+              <div className="hidden  md:flex md:flex-grow">
                 {selectedVacancy ? (
                   <VacancyCard {...selectedVacancy} />
                 ) : (
                   <>
                     <div className="flex flex-col items-center">
-
                       <p className="justify-self-center">&larr;Pilih Lowongan Kerja</p>
                       <p>Tampilkan detal di sini</p>
                     </div>
@@ -158,7 +170,6 @@ const Lowongan = () => {
                 )}
               </div>
             </div>
-          </div>
         </main>
       </Layout>
     </>

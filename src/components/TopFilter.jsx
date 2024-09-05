@@ -1,7 +1,6 @@
 import SelectField from "./SelectField";
 import { useRef } from "react";
-
-const TopFilter = ({ filtersData, onChange, search, setSearch, selectedFilters, vacancies, removeFilters, initialValues }) => {
+const TopFilter = ({ filtersData, onChange, debouncedValue, search, setSearch, selectedFilters, vacancies, removeFilters, initialValues }) => {
   const searchRef = useRef(null);
 
   // Handle search input change
@@ -116,7 +115,7 @@ const TopFilter = ({ filtersData, onChange, search, setSearch, selectedFilters, 
           )}
 
 
-          <div className="flex flex-nowrap flex-col">
+          <div className="flex md:flex-wrap md:flex-row md:gap-4 gap-2 flex-nowrap flex-col">
 
           {search && (
             <div className="bg-cyan-100 text-cyan-800 rounded-lg py-1 px-4">
@@ -148,7 +147,10 @@ const TopFilter = ({ filtersData, onChange, search, setSearch, selectedFilters, 
           </div>
         
         </div>
+        {(search || selectedFilters.location || selectedFilters.type || selectedFilters.experience || selectedFilters.salary) && (
+            
         <p className="text-base mt-2">Showing results: {vacancies?.length}</p>
+          )}
       </div>
     </section>
   );

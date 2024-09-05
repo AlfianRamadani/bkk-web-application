@@ -16,6 +16,8 @@ import { Link } from "react-router-dom";
 import News from "../components/News.jsx";
 import { useQuery } from "react-query";
 import { BaseApi } from "../lib/utils/BaseApi.jsx";
+// import { useFilters } from "react-table";
+
 const image = [
   exam2,
   exam3,
@@ -25,6 +27,7 @@ const image = [
 
 
 export default function Home() {
+
   const fetchCount = async () => {
     const response = await BaseApi.get('/count');
     return response.data;
@@ -106,6 +109,7 @@ export default function Home() {
               </Carousel>
             </div>
           </section>
+          Filter
           <section className="max-w-7xl mx-auto space-y-2 py-14">
             <h1 className="font-medium text-3xl ">Top Company</h1>
             <p className="font-medium text-lg text-slate-500">Explore company profiles to find the right workplace for you. Learn about jobs, reviews, company culture, perks and benefits.</p>
